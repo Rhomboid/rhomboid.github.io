@@ -1,141 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-        <title>Rhomboid's blog</title>
         <meta charset="utf-8" />
-        <link href="https://rhomboid.org/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rhomboid's blog Full Atom Feed" />
-        <link href="https://rhomboid.org/feeds/tweaks.atom.xml" type="application/atom+xml" rel="alternate" title="Rhomboid's blog Categories Atom Feed" />
-
-
-        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
-        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
-
-        <link rel="stylesheet" type="text/css" href="https://rhomboid.org/theme/gumby.css" />
-        <link rel="stylesheet" type="text/css" href="https://rhomboid.org/theme/style.css" />
-        <link rel="stylesheet" type="text/css" href="https://rhomboid.org/theme/pygment.css" />
-
-        <script src="https://rhomboid.org/theme/js/libs/modernizr-2.6.2.min.js"></script>
-
-
-
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Pelican" />
+        <title>Rhomboid's blog - tweaks</title>
+        <link rel="stylesheet" href="https://rhomboid.org/theme/css/main.css" />
+        <link href="https://rhomboid.org/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Rhomboid's blog Atom Feed" />
 </head>
 
 <body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://rhomboid.org/">Rhomboid's blog <strong>Misc tips and brain dumps.</strong></a></h1>
+                <nav><ul>
+                    <li class="active"><a href="https://rhomboid.org/category/tweaks.html">tweaks</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
 
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="https://rhomboid.org/firefox-scaletempo-improve.html">Improving Firefox&#8217;s scaletempo parameters for better audio playback at greater than 1x&nbsp;speed</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2023-04-24T20:50:50.236538-07:00">
+                Published: 2023-04-24
+        </abbr>
+		<br />
+        <abbr class="modified" title="2023-04-24T20:50:50.236538-07:00">
+                Updated: 2023-04-24
+        </abbr>
 
-    <div class="container">
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://rhomboid.org/author/rhomboid.html">Rhomboid</a>
+        </address>
+<p>In <a href="https://rhomboid.org/category/tweaks.html">tweaks</a>.</p>
+<p>tags: <a href="https://rhomboid.org/tag/audio.html">audio</a> <a href="https://rhomboid.org/tag/firefox.html">firefox</a> <a href="https://rhomboid.org/tag/scaletempo.html">scaletempo</a> </p>
+</footer><!-- /.post-info --><p>When you play media files in the browser at speeds other than 1x, the browser uses an algorithm that scales the speed without affecting pitch. (Without this, it would have <a href="https://www.youtube.com/watch?v=np2ZapISRzM">the Chipmunk effect</a>.) The most common implementation is <a href="https://scaletempo.sourceforge.net/0/">Scaletempo</a>, which is used all over the place because it&#8217;s open source, relatively efficient, and sounds decent. It works by cutting the audio into short segments (strides), and then blending them together with small overlaps. It searchs for similarities when choosing the overlapping areas, to minimize distortion or&nbsp;pops.</p>
+<p>For whatever brain-dead reason, Firefox&#8217;s default implementation of Scaletempo has a poor choice of parameters. If you often watch Youtube videos at 1.5x or whatever, you might consider tweaking these. There are three main parameters of interest: <strong>stride</strong>, <strong>overlap</strong>, and <strong>search</strong>. The <strong>stride</strong> parameter determines the lengh in milliseconds of the segments, <strong>overlap</strong> determines how much any two segments are allowed to overlap, and <strong>search</strong> defines how far to look for candidate segment&nbsp;boundaries.</p>
+<p>Firefox&#8217;s defaults for these three are 10, 8, 15 respectively. Here&#8217;s the <a href="https://hg.mozilla.org/mozilla-central/file/tip/modules/libpref/init/StaticPrefList.yaml#l10957">documentation from the source tree</a> (from Firefox&nbsp;112):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Time-stretch algorithm single processing sequence length in milliseconds.</span>
+<span class="c1"># This determines to how long sequences the original sound is chopped in the</span>
+<span class="c1"># time-stretch algorithm.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">media.audio.playbackrate.soundtouch_sequence_ms</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RelaxedAtomicInt32</span>
+<span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">mirror</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
 
-        <div class="row">
+<span class="c1"># Time-stretch algorithm overlap length in milliseconds. When the chopped sound</span>
+<span class="c1"># sequences are mixed back together, to form a continuous sound stream, this</span>
+<span class="c1"># parameter defines over how long period the two consecutive sequences are let</span>
+<span class="c1"># to overlap each other.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">media.audio.playbackrate.soundtouch_overlap_ms</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RelaxedAtomicInt32</span>
+<span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">  </span><span class="nt">mirror</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
 
-          <header id="banner" class="body">
-                  <h1><a href="https://rhomboid.org/">Rhomboid's blog <strong>Misc tips and brain dumps.</strong></a></h1>
-          </header><!-- /#banner -->
+<span class="c1"># Time-stretch algorithm seeking window length in milliseconds for algorithm</span>
+<span class="c1"># that finds the best possible overlapping location. This determines from how</span>
+<span class="c1"># wide window the algorithm may look for an optimal joining location when mixing</span>
+<span class="c1"># the sound sequences back together.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">media.audio.playbackrate.soundtouch_seekwindow_ms</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RelaxedAtomicInt32</span>
+<span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<span class="w">  </span><span class="nt">mirror</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+</code></pre></div>
 
-            <div id="navigation" class="navbar row">
-              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
-             
-              <ul class="columns">
-                <li><a href="https://rhomboid.org/">Home</a></li>
+<p>From my own experimentation, I have settled on the values 35 / 10 / 20, corresponding to the following lines in <code>prefs.js</code>:</p>
+<div class="highlight"><pre><span></span><code>user_pref(&quot;media.audio.playbackrate.soundtouch_sequence_ms&quot;, 35);
+user_pref(&quot;media.audio.playbackrate.soundtouch_overlap_ms&quot;, 10);
+user_pref(&quot;media.audio.playbackrate.soundtouch_seekwindow_ms&quot;, 20);
+</code></pre></div>
 
+<p>You can also enter these in <code>about:config</code>. Feel free to experiment and see what sounds best for&nbsp;you.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://rhomboid.org/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
-              </ul>
-            </div>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
 
-<section id="content">
-<h2>Articles in the tweaks category</h2>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
 
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
 
-   <div class="row">
-
-
-        <div class="eleven columns">
-                 <ol id="post-list">
-                        <li><article class="hentry">
-                                <header> <h2 class="entry-title"><a href="https://rhomboid.org/firefox-scaletempo-improve.html" rel="bookmark" title="Permalink to Improving Firefox’s scaletempo parameters for better audio playback at greater than 1x speed">Improving Firefox&#8217;s scaletempo parameters for better audio playback at greater than 1x&nbsp;speed</a></h2> </header>
-                                <footer class="post-info">
-                                    <abbr class="published" title="2023-04-24T20:50:50.236538-07:00"> 2023-04-24 </abbr>
-                                    <address class="vcard author">By 
-                                    <a class="url fn" href="https://rhomboid.org/author/rhomboid.html"> Rhomboid</a>
-                                    </address>
-                                </footer><!-- /.post-info -->
-                                <div class="entry-content"> <p>When you play media files in the browser at speeds other than 1x, the browser uses an algorithm that scales the speed without affecting pitch. (Without this, it would have <a href="https://www.youtube.com/watch?v=np2ZapISRzM">the Chipmunk effect</a>.) The most common implementation is <a href="https://scaletempo.sourceforge.net/0/">Scaletempo</a>, which is used all over the place because it&#8217;s open …</p> </div><!-- /.entry-content -->
-
-                                <div class="medium primary btn"><a href="https://rhomboid.org/firefox-scaletempo-improve.html" rel="bookmark" title="Permalink to Improving Firefox’s scaletempo parameters for better audio playback at greater than 1x speed">Read more <i class="icon-arrow-right"></i></a></div>
-
-
-
-                                <div class="row tag-row">
-                                        <span>Tagged as : </span>
-                                            <a class="danger label" href="https://rhomboid.org/tag/audio.html">audio</a>
-                                            <a class="danger label" href="https://rhomboid.org/tag/firefox.html">firefox</a>
-                                            <a class="danger label" href="https://rhomboid.org/tag/scaletempo.html">scaletempo</a>
-                                </div>
-
-
-
-                        </article></li>
-                </ol><!-- /#posts-list -->
-
-        </div><!-- /.eleven.columns -->
-        
-<div class="three columns">
-
-  <h4>Pages</h4>
-
-  <ul>
-
-  
-
-
-
-
-
-</div> </div><!-- /.row -->
-
-<p class="paginator">
-    Page 1 / 1
-</p>
-</section><!-- /#content -->
-
-       </div><!-- /.row -->
-    </div><!-- /.container -->
-
-
-       <div class="container.nopad bg">
-
-    
-        <footer id="credits" class="row">
-          <div class="seven columns left-center">
-
-                   <address id="about" class="vcard body">
-                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                    which takes great advantage of <a href="http://python.org">Python</a>.
-                    <br />
-                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
-                    </address>
-          </div>
-
-
-          <div class="seven columns">
-            <div class="row">
-              <ul class="socbtns">
-
-
-
-
-
-              </ul>
-            </div>
-          </div>
-        </footer>
-
-    </div>
-
-
-  <script src="https://rhomboid.org/theme/js/libs/jquery-1.9.1.min.js"></script>
-  <script src="https://rhomboid.org/theme/js/libs/gumby.min.js"></script>
-  <script src="https://rhomboid.org/theme/js/plugins.js"></script>
 </body>
 </html>

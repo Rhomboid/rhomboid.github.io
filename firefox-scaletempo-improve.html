@@ -27,19 +27,10 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2023-04-24T20:50:50.236538-07:00">
-                Published: 2023-04-24
-        </abbr>
-		<br />
-        <abbr class="modified" title="2023-04-24T20:50:50.236538-07:00">
-                Updated: 2023-04-24
-        </abbr>
+        Date: <abbr class="published" title="2023-04-24T20:50:50.236538-07:00">2023-04-24</abbr>
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://rhomboid.org/author/rhomboid.html">Rhomboid</a>
-        </address>
-<p>In <a href="https://rhomboid.org/category/tweaks.html">tweaks</a>.</p>
-<p>tags: <a href="https://rhomboid.org/tag/audio.html">audio</a> <a href="https://rhomboid.org/tag/firefox.html">firefox</a> <a href="https://rhomboid.org/tag/scaletempo.html">scaletempo</a> </p>
+<p>Category: <a href="https://rhomboid.org/category/tweaks.html">tweaks</a></p>
+<p>Tags: <a href="https://rhomboid.org/tag/audio.html">audio</a> <a href="https://rhomboid.org/tag/firefox.html">firefox</a> <a href="https://rhomboid.org/tag/scaletempo.html">scaletempo</a> </p>
 </footer><!-- /.post-info -->      <p>When you play media files in the browser at speeds other than 1x, the browser uses an algorithm that scales the speed without affecting pitch. (Without this, it would have <a href="https://www.youtube.com/watch?v=np2ZapISRzM">the Chipmunk effect</a>.) The most common implementation is <a href="https://scaletempo.sourceforge.net/0/">Scaletempo</a>, which is used all over the place because it&#8217;s open source, relatively efficient, and sounds decent. It works by cutting the audio into short segments (strides), and then blending them together with small overlaps. It searchs for similarities when choosing the overlapping areas, to minimize distortion or&nbsp;pops.</p>
 <p>For whatever brain-dead reason, Firefox&#8217;s default implementation of Scaletempo has a poor choice of parameters. If you often watch Youtube videos at 1.5x or whatever, you might consider tweaking these. There are three main parameters of interest: <strong>stride</strong>, <strong>overlap</strong>, and <strong>search</strong>. The <strong>stride</strong> parameter determines the lengh in milliseconds of the segments, <strong>overlap</strong> determines how much any two segments are allowed to overlap, and <strong>search</strong> defines how far to look for candidate segment&nbsp;boundaries.</p>
 <p>Firefox&#8217;s defaults for these three are 10, 8, 15 respectively. Here&#8217;s the <a href="https://hg.mozilla.org/mozilla-central/file/tip/modules/libpref/init/StaticPrefList.yaml#l10957">documentation from the source tree</a> (from Firefox&nbsp;112):</p>
@@ -90,14 +81,6 @@ user_pref(&quot;media.audio.playbackrate.soundtouch_seekwindow_ms&quot;, 20);
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->
-
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
-                </address><!-- /#about -->
-
-                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
 
 </body>
 </html>

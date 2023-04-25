@@ -1,27 +1,16 @@
-/*
-	Name: Smashing HTML5
-	Date: July 2009
-	Description: Sample layout for HTML5 and CSS3 goodness.
-	Version: 1.0
-	License: MIT <https://opensource.org/licenses/MIT>
-	Licensed by: Smashing Media GmbH <https://www.smashingmagazine.com/>
-	Original author: Enrique Ramírez <http://enrique-ramirez.com/>
-*/
-
-/* Imports */
 @import url("reset.css");
 @import url("pygment.css");
 @import url("typogrify.css");
 @import url("fonts.css");
 
-/***** Global *****/
-/* Body */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 body {
     background: #F5F4EF;
     color: #000305;
-    font-size: 87.5%; /* Base font size: 14px */
-    font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    line-height: 1.429;
+    font-size: 12pt;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 17pt;
     margin: 0;
     padding: 0;
     text-align: left;
@@ -50,7 +39,7 @@ hr { border: 2px solid #EEEEEE; }
 a {outline: 0;}
 a img {border: 0px; text-decoration: none;}
 a:link, a:visited {
-	color: #C74350;
+	/* color: #C74350; */
 	padding: 0 1px;
 	text-decoration: underline;
 }
@@ -147,7 +136,7 @@ aside, nav, article, figure {
 }
 
 /***** Layout *****/
-.body {clear: both; margin: 0 auto; max-width: 800px;}
+.body {clear: both; margin: 0 auto; max-width: 65em;}
 img { max-width: 100%; }
 img.right, figure.right, div.figure.align-right {
     float: right;
@@ -206,14 +195,14 @@ div.figure p.caption, figure p.caption { /* margin provided by figure */
 		margin: 0 auto 2em auto;
 		padding: 0;
 		text-align: center;
-		max-width: 800px;
+		max-width: 65em;
 
 		border-radius: 5px;
 		-moz-border-radius: 5px;
 		-webkit-border-radius: 5px;
 	}
 
-	#banner nav ul {list-style: none; margin: 0 auto; max-width: 800px;}
+	#banner nav ul {list-style: none; margin: 0 auto; max-width: 65em;}
 	#banner nav li {float: left; display: inline; margin: 0;}
 
 	#banner nav a:link, #banner nav a:visited {
@@ -248,7 +237,7 @@ div.figure p.caption, figure p.caption { /* margin provided by figure */
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px;
-	max-width: 760px;
+	max-width: 65em;
 
 	border-radius: 10px;
 	-moz-border-radius: 10px;
